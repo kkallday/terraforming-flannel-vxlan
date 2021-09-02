@@ -17,34 +17,37 @@ function check_sudo() {
 }
 
 function install_etcd () {
-	echo "installing etcd..."
-        local etcd_ver=v3.5.0
+	local bin_dir=/usr/local/bin/
+	if [[ ! -f ${bin_dir}/etcd || ! -f ${bin_dir}/etcdctl ]]; then
+		echo "installing etcd..."
+		local etcd_ver=v3.5.0
 
-        local google_url=https://storage.googleapis.com/etcd
-        local download_url=${google_url}
+		local download_url=https://storage.googleapis.com/etcd
 
-        rm -f /tmp/etcd-${etcd_ver}-linux-amd64.tar.gz
-        rm -rf /tmp/etcd-download-test && mkdir -p /tmp/etcd-download-test
+		rm -f /tmp/etcd-${etcd_ver}-linux-amd64.tar.gz
+		rm -rf /tmp/etcd-download-test && mkdir -p /tmp/etcd-download-test
 
-        curl -L ${download_url}/${etcd_ver}/etcd-${etcd_ver}-linux-amd64.tar.gz -o /tmp/etcd-${etcd_ver}-linux-amd64.tar.gz
-        tar xzvf /tmp/etcd-${etcd_ver}-linux-amd64.tar.gz -C /tmp/etcd-download-test --strip-components=1
-        rm -f /tmp/etcd-${etcd_ver}-linux-amd64.tar.gz
-
-        local bin_dir=/usr/local/bin/
-
-        mv /tmp/etcd-download-test/etcd ${bin_dir}/etcd
-        mv /tmp/etcd-download-test/etcdctl ${bin_dir}etcdctl
-        mv /tmp/etcd-download-test/etcdutl ${bin_dir}/etcdutl
-
-        chmod u+x ${bin_dir}/etcd
-        chmod u+x ${bin_dir}/etcdctl
-        chmod u+x ${bin_dir}/etcdutl
+		curl -L ${download_url}/${etcd_ver}/etcd-${etcd_ver}-linux-amd64.tar.gz -o /tmp/etcd-${etcd_ver}-linux-amd64.tar.gz
+		tar xzvf /tmp/etcd-${etcd_ver}-linux-amd64.tar.gz -C /tmp/etcd-download-test --strip-components=1
+		rm -f /tmp/etcd-${etcd_ver}-linux-amd64.tar.gz
 
 
-        echo "etcd binaries versions..."
-        etcd --version
-        etcdctl version
-        etcdutl version
+		mv /tmp/etcd-download-test/etcd ${bin_dir}/etcd
+		mv /tmp/etcd-download-test/etcdctl ${bin_dir}etcdctl
+		mv /tmp/etcd-download-test/etcdutl ${bin_dir}/etcdutl
+
+		chmod u+x ${bin_dir}/etcd
+		chmod u+x ${bin_dir}/etcdctl
+		chmod u+x ${bin_dir}/etcdutl
+
+
+		echo "etcd binaries versions..."
+		etcd --version
+		etcdctl version
+		etcdutl version
+	elif
+		echo "etcd found. skipping installation..."
+	fi
 }
 
 function create_etcd_user() {
