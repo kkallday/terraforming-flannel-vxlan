@@ -98,8 +98,8 @@ function run_http_server_in_namespaces() {
 	ip netns exec $ns_2_name pkill python3
 	set -e
 
-	ip netns exec $ns_1_name python3 -m http.server 8000 &
-	ip netns exec $ns_2_name python3 -m http.server 8000 &
+	ip netns exec $ns_1_name nohup python3 -m http.server 8000 &
+	ip netns exec $ns_2_name nohup python3 -m http.server 8000 &
 }
 
 function main() {
