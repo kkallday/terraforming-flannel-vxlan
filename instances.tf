@@ -9,6 +9,8 @@ resource "google_compute_instance" "etcd" {
     }
   }
 
+  metadata_startup_script = "git clone https://github.com/kkallday/terraforming-flannel-vxlan /terraforming-flannel-vxlan"
+
   network_interface {
     subnetwork = google_compute_subnetwork.my-subnet-1.self_link
 
@@ -35,6 +37,8 @@ resource "google_compute_instance" "cell-1" {
       image = "ubuntu-os-cloud/ubuntu-2004-lts"
     }
   }
+
+  metadata_startup_script = "git clone https://github.com/kkallday/terraforming-flannel-vxlan /terraforming-flannel-vxlan"
 
   network_interface {
     subnetwork = google_compute_subnetwork.my-subnet-1.self_link
@@ -64,6 +68,8 @@ resource "google_compute_instance" "cell-2" {
       image = "ubuntu-os-cloud/ubuntu-2004-lts"
     }
   }
+
+  metadata_startup_script = "git clone https://github.com/kkallday/terraforming-flannel-vxlan /terraforming-flannel-vxlan"
 
   network_interface {
     subnetwork = google_compute_subnetwork.my-subnet-2.self_link
