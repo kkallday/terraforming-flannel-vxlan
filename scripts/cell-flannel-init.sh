@@ -46,7 +46,7 @@ function install_etcd () {
 		etcd --version
 		etcdctl version
 		etcdutl version
-	elif
+	else
 		echo "etcd found. skipping installation..."
 	fi
 }
